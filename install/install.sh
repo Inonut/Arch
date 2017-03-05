@@ -86,7 +86,7 @@ partition_drive() {
         mklabel msdos \
         mkpart primary ext4 1 100M \
         mkpart primary ext4 100M 2G \
-        mkpart primary ext4 2G 3G \
+        mkpart primary linux-swap 2G 3G \
         mkpart primary ext4 3G 100% \
         set 1 boot on
 }
@@ -95,9 +95,10 @@ partition_drive() {
 format_filesystems() {
     local dev="$1"; shift
 
+    mkfs.ext4 "$dev"1
     mkfs.ext4 "$dev"2
-    mkfs.ext4 "$dev"4
     mkswap "$dev"3
+    mkfs.ext4 "$dev"4
     swapon "$dev"3
 }
 
