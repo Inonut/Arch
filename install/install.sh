@@ -222,3 +222,7 @@ create_user() {
 unmount_filesystems() {
     umount -R /mnt
 }
+
+set -ex
+
+setup
