@@ -5,9 +5,9 @@ DRIVE='/dev/sda'
 HOSTNAME='arch'
 TIMEZONE='Europe/Bucharest'
 KEYMAP='us'
-ROOT_PASSWORD=''
-USER_NAME=''
-USER_PASSWORD=''
+ROOT_PASSWORD='a'
+USER_NAME='gogu'
+USER_PASSWORD='a'
 
 setup() {
     echo 'Creating partitions'
