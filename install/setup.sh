@@ -2,14 +2,6 @@
 
 #Constants
 DRIVE='/dev/sda'
-HOSTNAME='arch'
-TIMEZONE='Europe/Bucharest'
-#KEYMAP='us'
-ROOT_PASSWORD='asd'
-USER_NAME='gogu'
-USER_PASSWORD='asd'
-NETWORK='enp0s3'
-
 
 
 
@@ -194,7 +186,7 @@ setup() {
 
     echo 'Chrooting into installed system to continue setup...'
     cp $0 /mnt/setup.sh
-    arch-chroot /mnt ./setup.sh chroot
+    arch-chroot /mnt /bin/bash ./setup.sh
 
     if [ -f /mnt/setup.sh ]
     then
