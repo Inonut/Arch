@@ -192,9 +192,12 @@ setup() {
     echo 'Installing base system'
     install_base
 
+    echo 'Setting fstab'
+    set_fstab
+
     echo 'Chrooting into installed system to continue setup...'
     cp $0 /mnt/setup.sh
-    arch-chroot /mnt ./setup.sh chroot
+    arch-chroot /mnt /bin/bash ./setup.sh chroot
 
     if [ -f /mnt/setup.sh ]
     then
@@ -210,9 +213,6 @@ setup() {
 configure() {
 
     echo '-------------Configuration---------------'
-
-    echo 'Setting fstab'
-    set_fstab
 
 #    echo 'Setting chroot'
 #    set_chroot
