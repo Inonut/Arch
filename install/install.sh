@@ -10,88 +10,8 @@ USER_NAME='gogu'
 USER_PASSWORD='asd'
 NETWORK='enp0s3'
 
-setup() {
-    echo 'Creating partitions'
-    partition_drive "$DRIVE"
-
-    echo 'Formatting filesystems'
-    format_filesystems "$DRIVE"
-
-    echo 'Mounting filesystems'
-    mount_filesystems "$DRIVE"
-
-    #echo 'Choose closest mirror list'
-    #choose_mirror
-
-    echo 'Installing base system'
-    install_base
-
-    echo '-------------Configuration---------------'
-    configure
-
-    exit
-    echo 'Unmounting filesystems'
-    unmount_filesystems
-    echo 'Done! Reboot system.'
-    reboot
-}
-
-configure() {
-    echo 'Setting fstab'
-    set_fstab
-
-    echo 'Setting chroot'
-    set_chroot
-
-    echo 'Setting locale'
-    set_locale
-
-    echo 'Setting timezone'
-    set_timezone "$TIMEZONE"
-
-    echo 'Configuring bootloader'
-    set_syslinux "$DRIVE"
-
-    echo 'Setting hostname'
-    set_hostname "$HOSTNAME"
-
-    echo 'Setting hosts file'
-    set_hosts "$HOSTNAME"
-
-    echo 'Setting network'
-    set_network "$NETWORK"
 
 
-
-
-    #echo 'Setting repository'
-#    set_repository
-
-    echo 'Installing additional packages'
-    install_packages
-
-    echo 'Clearing package tarballs'
-    clean_packages
-
-    echo 'Updating pkgfile database'
-    update_pkgfile
-
-
-
-
-#    echo 'Setting console keymap'
-#    set_keymap
-
-
-
-
-    echo 'Setting root password'
-    set_root_password "$ROOT_PASSWORD"
-
-#    echo 'Creating initial user'
-#    create_user "$USER_NAME" "$USER_PASSWORD"
-
-}
 
 set_network() {
     local net="$1"; shift
@@ -250,6 +170,80 @@ unmount_filesystems() {
     umount -R /mnt
 }
 
+
+echo '----------------------------------------------------------'
+
 set -ex
 
-setup
+echo 'Creating partitions'
+partition_drive "$DRIVE"
+
+echo 'Formatting filesystems'
+format_filesystems "$DRIVE"
+
+echo 'Mounting filesystems'
+mount_filesystems "$DRIVE"
+
+#echo 'Choose closest mirror list'
+#choose_mirror
+
+echo 'Installing base system'
+install_base
+
+
+
+echo '-------------Configuration---------------'
+
+echo 'Setting fstab'
+set_fstab
+
+echo 'Setting chroot'
+set_chroot
+
+echo 'Setting locale'
+set_locale
+
+echo 'Setting timezone'
+set_timezone "$TIMEZONE"
+
+echo 'Configuring bootloader'
+set_syslinux "$DRIVE"
+
+echo 'Setting hostname'
+set_hostname "$HOSTNAME"
+
+echo 'Setting hosts file'
+set_hosts "$HOSTNAME"
+
+echo 'Setting network'
+set_network "$NETWORK"
+
+#echo 'Setting repository'
+#set_repository
+
+echo 'Installing additional packages'
+install_packages
+
+echo 'Clearing package tarballs'
+clean_packages
+
+echo 'Updating pkgfile database'
+update_pkgfile
+
+#echo 'Setting console keymap'
+#set_keymap
+
+echo 'Setting root password'
+set_root_password "$ROOT_PASSWORD"
+
+#echo 'Creating initial user'
+#create_user "$USER_NAME" "$USER_PASSWORD"
+
+exit
+echo 'Unmounting filesystems'
+unmount_filesystems
+echo 'Done! Reboot system.'
+reboot
+
+
+
