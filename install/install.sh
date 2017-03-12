@@ -106,10 +106,10 @@ partition_drive() {
     parted -s "$dev" \
         mklabel msdos \
         mkpart primary ext4 1 100M \
-        set 1 boot on
         mkpart primary ext4 100M 2G \
         mkpart primary linux-swap 2G 3G \
         mkpart primary ext4 3G 100% \
+        set 1 boot on
 }
 
 
@@ -160,7 +160,7 @@ set_repository() {
 install_packages() {
     local packages='dialog'
 
-    pacman -Sy --noconfirm $packages
+    pacman -Sy --noconfirm "$packages"
 }
 
 
@@ -194,8 +194,8 @@ set_timezone() {
 
 
 set_locale() {
-    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-    echo "en_US ISO-8859-1" >> /etc/locale.gen
+    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+    echo "en_US ISO-8859-1" > /etc/locale.gen
     locale-gen
     echo LANG=en_US.UTF-8 > /etc/locale.conf
 }
