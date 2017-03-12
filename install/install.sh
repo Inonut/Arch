@@ -4,10 +4,11 @@
 DRIVE='/dev/sda'
 HOSTNAME='arch'
 TIMEZONE='Europe/Bucharest'
-KEYMAP='us'
-ROOT_PASSWORD='a'
+#KEYMAP='us'
+ROOT_PASSWORD='asd'
 USER_NAME='gogu'
-USER_PASSWORD='a'
+USER_PASSWORD='asd'
+NETWORK='wlo1'
 
 setup() {
     echo 'Creating partitions'
@@ -19,8 +20,8 @@ setup() {
     echo 'Mounting filesystems'
     mount_filesystems "$DRIVE"
 
-    echo 'Choose closest mirror list'
-    choose_mirror
+    #echo 'Choose closest mirror list'
+    #choose_mirror
 
     echo 'Installing base system'
     install_base
@@ -36,8 +37,35 @@ setup() {
 }
 
 configure() {
-    echo 'Setting repository'
-    set_repository
+    echo 'Setting fstab'
+    set_fstab
+
+    echo 'Setting chroot'
+    set_chroot
+
+    echo 'Setting locale'
+    set_locale
+
+    echo 'Setting timezone'
+    set_timezone "$TIMEZONE"
+
+    echo 'Configuring bootloader'
+    set_syslinux "$DRIVE"
+
+    echo 'Setting hostname'
+    set_hostname "$HOSTNAME"
+
+    echo 'Setting hosts file'
+    set_hosts "$HOSTNAME"
+
+    echo 'Setting network'
+    set_network "$NETWORK"
+
+
+
+
+    #echo 'Setting repository'
+#    set_repository
 
     echo 'Installing additional packages'
     install_packages
@@ -48,35 +76,28 @@ configure() {
     echo 'Updating pkgfile database'
     update_pkgfile
 
-    echo 'Setting hostname'
-    set_hostname "$HOSTNAME"
 
-    echo 'Setting timezone'
-    set_timezone "$TIMEZONE"
 
-    echo 'Setting locale'
-    set_locale
 
-    echo 'Setting console keymap'
-    set_keymap
+#    echo 'Setting console keymap'
+#    set_keymap
 
-    echo 'Setting hosts file'
-    set_hosts "$HOSTNAME"
 
-    echo 'Setting fstab'
-    set_fstab
 
-    echo 'Configuring bootloader'
-    set_syslinux "$DRIVE"
 
     echo 'Setting root password'
     set_root_password "$ROOT_PASSWORD"
 
-    echo 'Creating initial user'
-    create_user "$USER_NAME" "$USER_PASSWORD"
+#    echo 'Creating initial user'
+#    create_user "$USER_NAME" "$USER_PASSWORD"
 
 }
 
+set_network() {
+    local net="$1"; shift
+
+    systemctl enable dhcpcd@"$net".service
+}
 
 partition_drive() {
     local dev="$1"; shift
@@ -85,10 +106,10 @@ partition_drive() {
     parted -s "$dev" \
         mklabel msdos \
         mkpart primary ext4 1 100M \
+        set 1 boot on
         mkpart primary ext4 100M 2G \
         mkpart primary linux-swap 2G 3G \
         mkpart primary ext4 3G 100% \
-        set 1 boot on
 }
 
 
@@ -137,9 +158,9 @@ set_repository() {
 
 
 install_packages() {
-    local packages=''
+    local packages='dialog'
 
-    #pacman -Sy --noconfirm $packages
+    pacman -Sy --noconfirm $packages
 }
 
 
@@ -153,6 +174,10 @@ update_pkgfile() {
 }
 
 
+set_chroot() {
+    arch-chroot /mnt /bin/bash
+}
+
 set_hostname() {
     local hostname="$1"; shift
 
@@ -163,15 +188,16 @@ set_hostname() {
 set_timezone() {
     local timezone="$1"; shift
 
-    ln -sT "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
+    ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
+    hwclock --systohc --utc
 }
 
 
 set_locale() {
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+    echo "en_US ISO-8859-1" >> /etc/locale.gen
     locale-gen
     echo LANG=en_US.UTF-8 > /etc/locale.conf
-    export LANG=en_US.UTF-8
 }
 
 
@@ -185,12 +211,12 @@ set_hosts() {
 
     cat > /etc/hosts <<EOF
 127.0.0.1 localhost.localdomain localhost $hostname
-::1       localhost.localdomain localhost $hostname
+::1       localhost.localdomain localhost
 EOF
 }
 
 set_fstab() {
-    genfstab -U -p /mnt >> /mnt/etc/fstab
+    genfstab -U /mnt > /mnt/etc/fstab
 }
 
 set_syslinux() {
@@ -198,7 +224,7 @@ set_syslinux() {
 
     mkinitcpio -p linux
     pacman -S grub os-prober
-    grub-install "$dev"
+    grub-install --recheck "$dev"
     grub-mkconfig -o /boot/grub/grub.cfg
 
 }
@@ -208,7 +234,7 @@ set_root_password() {
     local password="$1"; shift
 
     echo -en "$password\n$password" | passwd
-    pacman -S sudo bash-completion
+#    pacman -S sudo bash-completion
 }
 
 create_user() {
