@@ -8,7 +8,7 @@ TIMEZONE='Europe/Bucharest'
 ROOT_PASSWORD='asd'
 USER_NAME='gogu'
 USER_PASSWORD='asd'
-NETWORK='wlo1'
+NETWORK='enp0s3'
 
 setup() {
     echo 'Creating partitions'
