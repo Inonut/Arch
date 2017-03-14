@@ -197,7 +197,7 @@ setup() {
 
     echo 'Chrooting into installed system to continue setup...'
     cp $0 /mnt/setup.sh
-    arch-chroot /mnt /bin/bash ./setup.sh chroot
+    arch-chroot /mnt ./setup.sh chroot
 
     if [ -f /mnt/setup.sh ]
     then
