@@ -73,14 +73,14 @@ set_repository() {
     echo '[multilib]' >> /etc/pacman.conf
     echo 'include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 
-    yes | pacman -Syu
+    y | pacman -Syu
 }
 
 
 install_packages() {
-    local packages='dialog sudo xorg-server xorg-server-utils gnome gdm open-vm-tools'
+    local packages='dialog sudo'
 
-    yes | pacman -Syu --noconfirm "$packages"
+    y | pacman -Syu --noconfirm "$packages"
 }
 
 
@@ -143,7 +143,7 @@ set_syslinux() {
     local dev="$1"; shift
 
     mkinitcpio -p linux
-    yes | pacman -S grub os-prober
+    y | pacman -S grub os-prober
     grub-install --recheck "$dev"
     grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -256,20 +256,6 @@ configure() {
 
     echo 'Creating initial user'
     create_user "$USER_NAME" "$USER_PASSWORD"
-
-
-    echo "Change to $USER_NAME"
-    su - "$USER_NAME"
-
-
-    "$USER_PASSWORD" | sudo pacman -Syu
-    reset
-    logout
-    systemctl enable gdm.service
-    systemctl start gdm
-
-
-
 
     rm /setup.sh
 }
