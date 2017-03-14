@@ -78,7 +78,7 @@ set_repository() {
 
 
 install_packages() {
-    local packages='dialog sudo'
+    local packages='dialog'
 
     y | pacman -Syu --noconfirm "$packages"
 }
@@ -186,8 +186,8 @@ setup() {
     echo 'Mounting filesystems'
     mount_filesystems "$DRIVE"
 
-    echo 'Choose closest mirror list'
-    choose_mirror
+    #echo 'Choose closest mirror list'
+    #choose_mirror
 
     echo 'Installing base system'
     install_base
@@ -207,7 +207,6 @@ setup() {
         echo 'Unmounting filesystems'
         unmount_filesystems
         echo 'Done! Reboot system.'
-        reboot
     fi
 }
 
@@ -236,8 +235,8 @@ configure() {
     echo 'Setting network'
     set_network "$NETWORK"
 
-    echo 'Setting repository'
-    set_repository
+    #echo 'Setting repository'
+    #set_repository
 
     echo 'Installing additional packages'
     install_packages
