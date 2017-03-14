@@ -78,7 +78,7 @@ set_repository() {
 
 
 install_packages() {
-    local packages='dialog'
+    local packages='dialog sudo'
 
     pacman -Syu --noconfirm "$packages"
 }
@@ -253,8 +253,8 @@ configure() {
     echo 'Setting root password'
     set_root_password "$ROOT_PASSWORD"
 
-    echo 'Creating initial user'
-    create_user "$USER_NAME" "$USER_PASSWORD"
+    #echo 'Creating initial user'
+    #create_user "$USER_NAME" "$USER_PASSWORD"
 
     rm /setup.sh
 }
