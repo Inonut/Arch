@@ -197,7 +197,7 @@ setup() {
 
     echo 'Chrooting into installed system to continue setup...'
     cp $0 /mnt/setup.sh
-    arch-chroot /mnt ./setup.sh chroot
+    arch-chroot /mnt /bin/bash ./setup.sh chroot
 
     if [ -f /mnt/setup.sh ]
     then
@@ -241,11 +241,11 @@ configure() {
     echo 'Installing additional packages'
     install_packages
 
-    echo 'Clearing package tarballs'
-    clean_packages
+    #echo 'Clearing package tarballs'
+    #clean_packages
 
-    echo 'Updating pkgfile database'
-    update_pkgfile
+    #echo 'Updating pkgfile database'
+    #update_pkgfile
 
     #echo 'Setting console keymap'
     #set_keymap
