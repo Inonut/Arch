@@ -73,14 +73,14 @@ set_repository() {
     echo '[multilib]' >> /etc/pacman.conf
     echo 'include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 
-    y | pacman -Syu
+    pacman -Syu
 }
 
 
 install_packages() {
     local packages='dialog'
 
-    y | pacman -Syu --noconfirm "$packages"
+    pacman -Syu --noconfirm "$packages"
 }
 
 
@@ -143,7 +143,7 @@ set_syslinux() {
     local dev="$1"; shift
 
     mkinitcpio -p linux
-    y | pacman -S grub os-prober
+    pacman -S grub os-prober
     grub-install --recheck "$dev"
     grub-mkconfig -o /boot/grub/grub.cfg
 
