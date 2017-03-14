@@ -70,17 +70,17 @@ set_repository() {
     #sed -e '/[multilib]/ s/^#*//' -i /etc/pacman.conf
     #sed -e '/include = /etc/pacman.d/mirrorlist/ s/^#*//' -i /etc/pacman.conf
 
-    echo '[multilib]' >> /etc/locale.conf
-    echo 'include = /etc/pacman.d/mirrorlist' >> /etc/locale.conf
+    echo '[multilib]' >> /etc/pacman.conf
+    echo 'include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 
-    pacman -Syu
+    yes | pacman -Syu
 }
 
 
 install_packages() {
-    local packages='dialog'
+    local packages='dialog sudo xorg-server xorg-server-utils gnome gdm open-vm-tools'
 
-    pacman -Syu --noconfirm "$packages"
+    yes | pacman -Syu --noconfirm "$packages"
 }
 
 
@@ -143,7 +143,7 @@ set_syslinux() {
     local dev="$1"; shift
 
     mkinitcpio -p linux
-    pacman -S grub os-prober
+    yes | pacman -S grub os-prober
     grub-install --recheck "$dev"
     grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -161,9 +161,9 @@ create_user() {
     local name="$1"; shift
     local password="$1"; shift
 
-    useradd -m -g users -G wheel,storage,power -s /bin/bash "$name"
+    useradd -m -G wheel -s /bin/bash "$name"
     echo -en "$password\n$password" | passwd "$name"
-    echo '%wheel ALL=(ALL)' >> EDITOR=nano visudo
+    echo '%wheel ALL=(ALL)' > /etc/sudoers
 }
 
 unmount_filesystems() {
@@ -186,8 +186,8 @@ setup() {
     echo 'Mounting filesystems'
     mount_filesystems "$DRIVE"
 
-    #echo 'Choose closest mirror list'
-    #choose_mirror
+    echo 'Choose closest mirror list'
+    choose_mirror
 
     echo 'Installing base system'
     install_base
@@ -207,6 +207,7 @@ setup() {
         echo 'Unmounting filesystems'
         unmount_filesystems
         echo 'Done! Reboot system.'
+        reboot
     fi
 }
 
@@ -235,8 +236,8 @@ configure() {
     echo 'Setting network'
     set_network "$NETWORK"
 
-    #echo 'Setting repository'
-    #set_repository
+    echo 'Setting repository'
+    set_repository
 
     echo 'Installing additional packages'
     install_packages
@@ -253,8 +254,22 @@ configure() {
     echo 'Setting root password'
     set_root_password "$ROOT_PASSWORD"
 
-    #echo 'Creating initial user'
-    #create_user "$USER_NAME" "$USER_PASSWORD"
+    echo 'Creating initial user'
+    create_user "$USER_NAME" "$USER_PASSWORD"
+
+
+    echo "Change to $USER_NAME"
+    su - "$USER_NAME"
+
+
+    "$USER_PASSWORD" | sudo pacman -Syu
+    reset
+    logout
+    systemctl enable gdm.service
+    systemctl start gdm
+
+
+
 
     rm /setup.sh
 }
