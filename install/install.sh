@@ -55,7 +55,7 @@ mount_filesystems() {
 }
 
 choose_mirror() {
-    pacman -Sy
+    pacman -Syu
     pacman -S reflector
     reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 }
@@ -73,14 +73,14 @@ set_repository() {
     echo '[multilib]' >> /etc/locale.conf
     echo 'include = /etc/pacman.d/mirrorlist' >> /etc/locale.conf
 
-    pacman -Sy
+    pacman -Syu
 }
 
 
 install_packages() {
     local packages='dialog'
 
-    pacman -Sy --noconfirm "$packages"
+    pacman -Syu --noconfirm "$packages"
 }
 
 
