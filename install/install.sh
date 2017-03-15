@@ -12,7 +12,9 @@ export NETWORK='enp0s3'
 
 installDir='/archInstall'
 
+rm -r $installDir
 mkdir $installDir
+
 curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/setup.sh > $installDir/setup.sh
 curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/config.sh > $installDir/config.sh
 
