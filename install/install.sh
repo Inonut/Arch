@@ -10,10 +10,12 @@ export USER_NAME='gogu'
 export USER_PASSWORD='asd'
 export NETWORK='enp0s3'
 
+installDir='/archInstall'
 
-mkdir /archInstall
-curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/setup.sh > /archInstall/setup.sh
-curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/config.sh > /archInstall/config.sh
+mkdir $installDir
+curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/setup.sh > $installDir/setup.sh
+curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/config.sh > $installDir/config.sh
 
 
+cd $installDir
 sh setup.sh
