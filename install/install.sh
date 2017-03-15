@@ -22,8 +22,9 @@ set_network() {
 partition_drive() {
     local dev="$1"; shift
 
-    # Must be refactor for real masine
+    # For create partition
     parted -s "$dev" \
+        #To create a new MBR/msdos partition table for BIOS systems, use the following command:
         mklabel msdos \
         mkpart primary ext4 1 100M \
         mkpart primary ext4 100M 7G \
@@ -39,8 +40,9 @@ format_filesystems() {
     mkfs.ext4 "$dev"1
     mkfs.ext4 "$dev"2
     mkswap "$dev"3
-    mkfs.ext4 "$dev"4
+    #To enable the device for paging:
     swapon "$dev"3
+    mkfs.ext4 "$dev"4
 }
 
 
@@ -62,6 +64,7 @@ choose_mirror() {
 
 
 install_base() {
+    #install base linux
     pacstrap -i /mnt base base-devel
 }
 
@@ -114,15 +117,15 @@ set_timezone() {
 
 
 set_locale() {
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-    echo "en_US ISO-8859-1" > /etc/locale.gen
+    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+    echo "en_US ISO-8859-1" >> /etc/locale.gen
     locale-gen
-    echo LANG=en_US.UTF-8 > /etc/locale.conf
+    echo LANG=en_US.UTF-8 >> /etc/locale.conf
 }
 
 
 set_keymap() {
-    echo "KEYMAP=$KEYMAP" > /etc/vconsole.conf
+    echo "KEYMAP=$KEYMAP" >> /etc/vconsole.conf
 }
 
 
@@ -163,7 +166,7 @@ create_user() {
 
     useradd -m -G wheel -s /bin/bash "$name"
     echo -en "$password\n$password" | passwd "$name"
-    echo '%wheel ALL=(ALL)' > /etc/sudoers
+    echo '%wheel ALL=(ALL)' >> /etc/sudoers
 }
 
 unmount_filesystems() {
