@@ -24,7 +24,6 @@ partition_drive() {
 
     # For create partition
     parted -s "$dev" \
-        #To create a new MBR/msdos partition table for BIOS systems, use the following command:
         mklabel msdos \
         mkpart primary ext4 1 100M \
         mkpart primary ext4 100M 7G \
