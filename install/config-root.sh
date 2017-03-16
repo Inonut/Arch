@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 set_locale() {
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-    echo "en_US ISO-8859-1" > /etc/locale.gen
+    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+    echo "en_US ISO-8859-1" >> /etc/locale.gen
     locale-gen
-    echo LANG=en_US.UTF-8 > /etc/locale.conf
+    echo LANG=en_US.UTF-8 >> /etc/locale.conf
 }
 
 set_timezone() {
@@ -61,7 +61,7 @@ install_packages() {
 set_sudo() {
     yes | pacman -S sudo
 
-    echo '%wheel ALL=(ALL)' > /etc/sudoers
+    echo '%wheel ALL=(ALL)' >> /etc/sudoers
 
 }
 
@@ -73,29 +73,18 @@ clean_packages() {
 set_hostname() {
     local hostname="$1"; shift
 
-    echo "$hostname" > /etc/hostname
+    echo "$hostname" >> /etc/hostname
 }
 
 set_keymap() {
-    echo "KEYMAP=$KEYMAP" > /etc/vconsole.conf
+    echo "KEYMAP=$KEYMAP" >> /etc/vconsole.conf
 }
 
 set_root_password() {
     local password="$1"; shift
 
     echo -en "$password\n$password" | passwd
-#    pacman -S sudo bash-completion
 }
-
-create_user() {
-    local name="$1"; shift
-    local password="$1"; shift
-
-    useradd -m -G wheel -s /bin/bash "$name"
-    echo -en "$password\n$password" | passwd "$name"
-    echo '%wheel ALL=(ALL)' > /etc/sudoers
-}
-
 
 
 
@@ -135,8 +124,6 @@ set_keymap
 echo 'Setting root password'
 set_root_password "$ROOT_PASSWORD"
 
-echo 'Creating initial user'
-create_user "$USER_NAME" "$USER_PASSWORD"
 
 
 rm /config.sh
