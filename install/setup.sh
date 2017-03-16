@@ -81,8 +81,8 @@ echo 'Setting fstab'
 set_fstab
 
 echo 'Chrooting into installed system to continue setup...'
-cp $installDir/config.sh /mnt/config.sh
-arch-chroot /mnt /bin/bash ./config.sh
+cp $installDir/config-root.sh /mnt/config-root.sh
+arch-chroot /mnt /bin/bash ./config-root.sh
 
 echo 'Unmounting filesystems'
 unmount_filesystems
