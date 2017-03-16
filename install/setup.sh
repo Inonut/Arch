@@ -37,14 +37,14 @@ mount_filesystems() {
 }
 
 choose_mirror() {
-    echo "y" | pacman -Sy
-    echo "y" | pacman -S reflector
+    yes | pacman -Sy
+    yes | pacman -S reflector
     reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 }
 
 
 install_base() {
-    echo "\n\ny" | pacstrap -i /mnt base base-devel
+    yes | pacstrap -i /mnt base base-devel
 }
 
 set_fstab() {
