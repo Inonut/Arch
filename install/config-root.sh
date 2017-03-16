@@ -1,5 +1,39 @@
 #!/usr/bin/env bash
 
+set_locale() {
+    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+    echo "en_US ISO-8859-1" > /etc/locale.gen
+    locale-gen
+    echo LANG=en_US.UTF-8 > /etc/locale.conf
+}
+
+set_timezone() {
+    local timezone="$1"; shift
+
+    ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
+    hwclock --systohc --utc
+}
+
+set_syslinux() {
+    local dev="$1"; shift
+
+    mkinitcpio -p linux
+    yes | pacman -S grub bash-completion os-prober
+    grub-install --recheck "$dev"
+    grub-mkconfig -o /boot/grub/grub.cfg
+
+}
+
+set_hosts() {
+    local hostname="$1"; shift
+
+    cat > /etc/hosts <<EOF
+127.0.0.1 localhost.localdomain localhost $hostname
+::1       localhost.localdomain localhost
+EOF
+}
+
+
 set_network() {
     local net="$1"; shift
 
@@ -13,24 +47,26 @@ set_repository() {
     echo '[multilib]' >> /etc/pacman.conf
     echo 'include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 
-    pacman -Syu
+    yes | pacman -Syu
 }
 
 
 install_packages() {
-    local packages='dialog sudo'
+    local packages='dialog'
 
-    pacman -Syu --noconfirm "$packages"
+    yes | pacman -S "$packages"
 }
 
+
+set_sudo() {
+    yes | pacman -S sudo
+
+    echo '%wheel ALL=(ALL)' > /etc/sudoers
+
+}
 
 clean_packages() {
     yes | pacman -Scc
-}
-
-
-update_pkgfile() {
-    pkgfile -u
 }
 
 
@@ -40,47 +76,9 @@ set_hostname() {
     echo "$hostname" > /etc/hostname
 }
 
-
-set_timezone() {
-    local timezone="$1"; shift
-
-    ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
-    hwclock --systohc --utc
-}
-
-
-set_locale() {
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-    echo "en_US ISO-8859-1" > /etc/locale.gen
-    locale-gen
-    echo LANG=en_US.UTF-8 > /etc/locale.conf
-}
-
-
 set_keymap() {
     echo "KEYMAP=$KEYMAP" > /etc/vconsole.conf
 }
-
-
-set_hosts() {
-    local hostname="$1"; shift
-
-    cat > /etc/hosts <<EOF
-127.0.0.1 localhost.localdomain localhost $hostname
-::1       localhost.localdomain localhost
-EOF
-}
-
-set_syslinux() {
-    local dev="$1"; shift
-
-    mkinitcpio -p linux
-    pacman -S grub os-prober
-    grub-install --recheck "$dev"
-    grub-mkconfig -o /boot/grub/grub.cfg
-
-}
-
 
 set_root_password() {
     local password="$1"; shift
@@ -128,14 +126,11 @@ set_repository
 echo 'Installing additional packages'
 install_packages
 
-#echo 'Clearing package tarballs'
-#clean_packages
+echo 'Setting sudo'
+set_sudo
 
-#echo 'Updating pkgfile database'
-#update_pkgfile
-
-#echo 'Setting console keymap'
-#set_keymap
+echo 'Setting console keymap'
+set_keymap
 
 echo 'Setting root password'
 set_root_password "$ROOT_PASSWORD"
