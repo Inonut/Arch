@@ -44,7 +44,7 @@ choose_mirror() {
 
 
 install_base() {
-    yes | pacstrap -i /mnt base base-devel
+    printf '\n\ny\n' | pacstrap -i /mnt base base-devel
 }
 
 set_fstab() {
