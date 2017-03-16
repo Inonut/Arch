@@ -11,7 +11,7 @@ create_user() {
 set_interface() {
 
     yes | pacman -Syu
-    printf '\ny\n' | pacman -S xorg-server xorg-server-utils
+    printf '\n\ny\n' | pacman -S xorg-server xorg-server-utils
     printf '\n\ny\n' | pacman -S gnome gdm
     yes | pacman -S open-vm-tools
 }
@@ -29,5 +29,3 @@ set_interface
 echo 'Strat interface'
 systemctl enable gdm.service
 systemctl start gdm
-
-rm /config.sh

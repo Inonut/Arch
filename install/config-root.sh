@@ -45,7 +45,7 @@ set_repository() {
     #sed -e '/include = /etc/pacman.d/mirrorlist/ s/^#*//' -i /etc/pacman.conf
 
     echo '[multilib]' >> /etc/pacman.conf
-    echo 'include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
+    echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 
     yes | pacman -Syu
 }
