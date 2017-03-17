@@ -36,8 +36,12 @@ mount_filesystems() {
     mount "$dev"4 /mnt/home
 }
 
+update_packs() {
+    yes | pacman -Syu
+    yes | pacman -Scc
+}
+
 choose_mirror() {
-    yes | pacman -Sy
     yes | pacman -S reflector
     reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 }
@@ -70,6 +74,9 @@ format_filesystems "$DRIVE"
 
 echo 'Mounting filesystems'
 mount_filesystems "$DRIVE"
+
+echo 'Update packs'
+update_packs
 
 echo 'Choose closest mirror list'
 choose_mirror

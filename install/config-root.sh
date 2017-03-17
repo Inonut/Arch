@@ -48,6 +48,7 @@ set_repository() {
     echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 
     yes | pacman -Syu
+    yes | pacman -Scc
 }
 
 
@@ -63,10 +64,6 @@ set_sudo() {
 
     echo '%wheel ALL=(ALL)' >> /etc/sudoers
 
-}
-
-clean_packages() {
-    yes | pacman -Scc
 }
 
 

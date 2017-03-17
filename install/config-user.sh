@@ -11,7 +11,8 @@ create_user() {
 set_interface() {
 
     yes | pacman -Syu
-    printf '\n\ny\n' | pacman -S xorg-server xorg-server-utils
+    yes | pacman -Scc
+    printf '\n\ny\n' | pacman -S xorg xorg-server xorg-server-utils networkmanager
     printf '\n\ny\n' | pacman -S gnome gdm
     yes | pacman -S open-vm-tools
 }

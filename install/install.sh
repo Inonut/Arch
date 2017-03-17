@@ -21,4 +21,4 @@ curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/config-user
 
 
 sh $installDir/setup.sh
-#sh $installDir/config-user.sh
+sh $installDir/config-user.sh
