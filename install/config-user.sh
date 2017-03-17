@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+#Constants
+export USER_NAME='gogu'
+export USER_PASSWORD='asd'
+
 create_user() {
     local name="$1"; shift
     local password="$1"; shift
