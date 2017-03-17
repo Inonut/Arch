@@ -43,4 +43,4 @@ set_interface
 
 echo 'Strat interface'
 systemctl enable gdm.service
-#systemctl start gdm
+systemctl start gdm
