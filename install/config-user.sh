@@ -11,7 +11,7 @@ create_user() {
 set_sudo() {
     yes | pacman -S sudo
 
-    echo '%wheel ALL=(ALL)' >> /etc/sudoers
+    echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
 }
 
