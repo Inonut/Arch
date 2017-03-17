@@ -59,14 +59,6 @@ install_packages() {
 }
 
 
-set_sudo() {
-    yes | pacman -S sudo
-
-    echo '%wheel ALL=(ALL)' >> /etc/sudoers
-
-}
-
-
 set_hostname() {
     local hostname="$1"; shift
 
@@ -111,9 +103,6 @@ set_repository
 
 echo 'Installing additional packages'
 install_packages
-
-echo 'Setting sudo'
-set_sudo
 
 echo 'Setting console keymap'
 set_keymap

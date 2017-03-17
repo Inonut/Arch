@@ -8,11 +8,18 @@ create_user() {
     echo -en "$password\n$password" | passwd "$name"
 }
 
+set_sudo() {
+    yes | pacman -S sudo
+
+    echo '%wheel ALL=(ALL)' >> /etc/sudoers
+
+}
+
 set_interface() {
 
     yes | pacman -Syu
     yes | pacman -Scc
-    printf '\n\ny\n' | pacman -S xorg xorg-server xorg-server-utils networkmanager
+    printf '\n\ny\n' | pacman -S xorg xorg-server xorg-server-utils
     printf '\n\ny\n' | pacman -S gnome gdm
     yes | pacman -S open-vm-tools
 }
@@ -23,6 +30,9 @@ echo '-------------Configuration---------------'
 
 echo 'Creating initial user'
 create_user "$USER_NAME" "$USER_PASSWORD"
+
+echo 'Setting sudo'
+set_sudo
 
 echo 'Setting interface'
 set_interface
