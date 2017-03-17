@@ -19,8 +19,8 @@ set_interface() {
 
     yes | pacman -Syu
     yes | pacman -Scc
-    printf '\n\ny\n' | pacman -S xorg xorg-server xorg-server-utils
-    printf '\n\ny\n' | pacman -S gnome gdm
+    printf '\n\n\ny' | pacman -S xorg xorg-server xorg-server-utils
+    printf '\n\ny' | pacman -S gnome gdm
     yes | pacman -S open-vm-tools
 }
 
@@ -39,4 +39,4 @@ set_interface
 
 echo 'Strat interface'
 systemctl enable gdm.service
-systemctl start gdm
+#systemctl start gdm
