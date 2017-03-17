@@ -5,35 +5,47 @@ partition_drive() {
     local dev="$1"; shift
 
     # Must be refactor for real masine
+#    parted -s "$dev" \
+#        mklabel msdos \
+#        mkpart primary ext4 1 100M \
+#        mkpart primary ext4 100M 7G \
+#        mkpart primary linux-swap 7G 8G \
+#        mkpart primary ext4 8G 100% \
+#        set 1 boot on
+
     parted -s "$dev" \
         mklabel msdos \
-        mkpart primary ext4 1 100M \
-        mkpart primary ext4 100M 7G \
-        mkpart primary linux-swap 7G 8G \
-        mkpart primary ext4 8G 100% \
-        set 1 boot on
+        mkpart primary linux-swap 1 1G \
+        mkpart primary ext4 1G 100% \
+        set 2 boot on
 }
 
 
 format_filesystems() {
     local dev="$1"; shift
 
-    mkfs.ext4 "$dev"1
+#    mkfs.ext4 "$dev"1
+#    mkfs.ext4 "$dev"2
+#    mkswap "$dev"3
+#    mkfs.ext4 "$dev"4
+#    swapon "$dev"3
+
+    mkswap "$dev"1
+    swapon "$dev"1
     mkfs.ext4 "$dev"2
-    mkswap "$dev"3
-    mkfs.ext4 "$dev"4
-    swapon "$dev"3
 }
 
 
 mount_filesystems() {
     local dev="$1"; shift
 
+#    mount "$dev"2 /mnt
+#    mkdir /mnt/boot
+#    mount "$dev"1 /mnt/boot
+#    mkdir /mnt/home
+#    mount "$dev"4 /mnt/home
+
     mount "$dev"2 /mnt
-    mkdir /mnt/boot
-    mount "$dev"1 /mnt/boot
-    mkdir /mnt/home
-    mount "$dev"4 /mnt/home
 }
 
 update_packs() {
