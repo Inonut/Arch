@@ -1,5 +1,6 @@
 #!/bin/bash
 
+. readProps.sh
 
 partition_drive() {
     local dev="$1"; shift
@@ -101,13 +102,12 @@ set_fstab
 
 echo 'Chrooting into installed system to continue setup...'
 cp $installDir /mnt$installDir
-cp $installDir/config-root.sh /mnt/config-root.sh
-arch-chroot /mnt /bin/bash ./config-root.sh
+arch-chroot /mnt /bin/bash $installDir/config-root.sh
 
 echo 'Unmounting filesystems'
 unmount_filesystems
 echo 'Done! Reboot system.'
-reboot
+#reboot
 
 
 

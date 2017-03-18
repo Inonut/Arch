@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-#Constants
-export USER_NAME='gogu'
-export USER_PASSWORD='asd'
+. readProps.sh
 
 create_user() {
     local name="$1"; shift
