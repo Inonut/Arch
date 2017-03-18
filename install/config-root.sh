@@ -109,7 +109,3 @@ set_keymap
 
 echo 'Setting root password'
 set_root_password "$ROOT_PASSWORD"
-
-
-
-rm /config.sh
