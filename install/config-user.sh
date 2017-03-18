@@ -21,8 +21,6 @@ set_sudo() {
 
 set_interface() {
 
-    yes | pacman -Syu
-    yes | pacman -Scc
     printf '\n\n\n\n\n\n\n\n' | pacman -S xorg xorg-server xorg-server-utils
     printf '\n\n\n\n\n\n\n\n' | pacman -S gnome gdm gnome-extra
     yes | pacman -S open-vm-tools
