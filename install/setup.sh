@@ -57,7 +57,7 @@ update_packs() {
 
 choose_mirror() {
     yes | pacman -S reflector
-    reflector --verbose -l 100 --sort rate --save /etc/pacman.d/mirrorlist
+    reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 }
 
 
