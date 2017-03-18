@@ -1,5 +1,6 @@
 #!/bin/bash
 
+installDir=/archInstall
 . $installDir/readProps.sh
 
 partition_drive() {

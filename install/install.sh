@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-export installDir=/archInstall
+installDir=/archInstall
 
 rm -r $installDir
 mkdir $installDir

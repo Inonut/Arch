@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+installDir=/archInstall
 . $installDir/readProps.sh
 
 create_user() {

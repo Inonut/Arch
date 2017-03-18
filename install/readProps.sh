@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#read properties
+installDir=/archInstall
 file="$installDir/constants.properties"
 
 if [ -f "$file" ]
