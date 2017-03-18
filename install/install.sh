@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-installDir=/archInstall
+export installDir=/archInstall
 
 rm -r $installDir
 mkdir $installDir
@@ -11,7 +11,5 @@ curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/readProps.s
 curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/setup.sh > $installDir/setup.sh
 curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/config-root.sh > $installDir/config-root.sh
 curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/config-user.sh > $installDir/config-user.sh
-
-echo "installDir=/archInstall" >> $installDir/constants.properties
 
 . $installDir/setup.sh

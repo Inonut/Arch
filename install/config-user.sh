@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. readProps.sh
+. $installDir/readProps.sh
 
 create_user() {
     local name="$1"; shift

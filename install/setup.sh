@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. readProps.sh
+. $installDir/readProps.sh
 
 partition_drive() {
     local dev="$1"; shift
