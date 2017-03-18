@@ -14,4 +14,4 @@ curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/config-user
 
 echo "installDir=/archInstall" >> $installDir/constants.properties
 
-sh $installDir/setup.sh
+. $installDir/setup.sh
