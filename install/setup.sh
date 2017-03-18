@@ -56,8 +56,13 @@ update_packs() {
 }
 
 choose_mirror() {
-    yes | pacman -S reflector
-    reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
+#    yes | pacman -S reflector
+#    reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
+
+    yes | pacman -S pacman-mirrorlist
+    Cnt="$COUNTRY";
+    awk -v GG="$Cnt" '{if(match($0,GG) != "0")AA="1";if(AA == "1"){if( length($2) != "0"  )print substr($0,2) ;else AA="0"} }' \
+     /etc/pacman.d/mirrorlist.pacnew
 }
 
 
