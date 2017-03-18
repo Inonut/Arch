@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #read properties
-file="./constants.properties"
+file="$installDir/constants.properties"
 
 if [ -f "$file" ]
 then
