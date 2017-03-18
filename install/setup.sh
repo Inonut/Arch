@@ -60,9 +60,9 @@ choose_mirror() {
 #    reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 
     yes | pacman -S pacman-mirrorlist
-    Cnt="$COUNTRY";
-    awk -v GG="$Cnt" '{if(match($0,GG) != "0")AA="1";if(AA == "1"){if( length($2) != "0"  )print substr($0,2) ;else AA="0"} }' \
-     /etc/pacman.d/mirrorlist.pacnew
+    cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+    sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
+    rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 }
 
 
