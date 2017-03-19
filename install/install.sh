@@ -14,6 +14,8 @@ props['COUNTRY']=Romania
 
 installDir=/archInstall
 
+mkdir $installDir
+
 for k in "${!props[@]}"
 do
     echo $k=${props[$k]} >> $installDir/constants.properties
