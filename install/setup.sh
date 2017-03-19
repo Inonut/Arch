@@ -17,8 +17,8 @@ partition_drive() {
 
     parted -s "$dev" \
         mklabel msdos \
-        mkpart primary ext4 1M 0.5G \
-        mkpart primary linux-swap 0.5G 1.5G \
+        mkpart primary ext4 1M 512M \
+        mkpart primary linux-swap 512M 1.5G \
         mkpart primary ext4 1.5G 100% \
         set 1 boot on
 }
