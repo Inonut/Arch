@@ -16,7 +16,7 @@ do
     tar -xvf $tool.tar.gz
     cd ~/$tool
     printf '\n\n\n\n\n\n\n\n\n' | makepkg -s
-    printf '$USER_PASSWORD\n\n' | makepkg -i
+    echo -en "$password\n\n" | makepkg -i
     cd ~/
     rm -rf $tool
     rm -rf $tool.tar.gz
@@ -25,3 +25,6 @@ done
 
 printf '\n\n\n\n\n\n\n\n\n' | pacman -S maven gradle git notepadqq virtualbox
 printf '$USER_PASSWORD' | sudo !!
+
+
+archlinux-java java-8-jdk
