@@ -56,8 +56,8 @@ update_packs() {
 }
 
 choose_mirror() {
-#    yes | pacman -S reflector
-#    reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
+    yes | pacman -S reflector
+    reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 }
 
 
@@ -92,8 +92,8 @@ mount_filesystems "$DRIVE"
 echo 'Update packs'
 update_packs
 
-echo 'Choose closest mirror list'
-choose_mirror
+#echo 'Choose closest mirror list'
+#choose_mirror
 
 echo 'Installing base system'
 install_base
