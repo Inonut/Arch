@@ -58,9 +58,6 @@ update_packs() {
 choose_mirror() {
 #    yes | pacman -S reflector
 #    reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
-
-    yes | pacman -S reflector
-    sudo reflector --verbose --country '$COUNTRY' -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 }
 
 
@@ -111,7 +108,7 @@ arch-chroot /mnt /bin/bash $installDir/config-root.sh
 echo 'Unmounting filesystems'
 unmount_filesystems
 echo 'Done! Reboot system.'
-#reboot
+reboot
 
 
 
