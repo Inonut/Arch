@@ -17,9 +17,10 @@ partition_drive() {
 
     parted -s "$dev" \
         mklabel msdos \
-        mkpart primary linux-swap 1 1G \
-        mkpart primary ext4 1G 100% \
-        set 2 boot on
+        mkpart primary ext4 1M 0.5G \
+        mkpart primary linux-swap 0.5G 1.5G \
+        mkpart primary ext4 1.5G 100% \
+        set 1 boot on
 }
 
 
@@ -32,9 +33,10 @@ format_filesystems() {
 #    mkfs.ext4 "$dev"4
 #    swapon "$dev"3
 
-    mkswap "$dev"1
-    swapon "$dev"1
-    mkfs.ext4 "$dev"2
+    mkfs.ext4 "$dev"1
+    mkswap "$dev"2
+    swapon "$dev"2
+    mkfs.ext4 "$dev"3
 }
 
 
@@ -47,7 +49,9 @@ mount_filesystems() {
 #    mkdir /mnt/home
 #    mount "$dev"4 /mnt/home
 
-    mount "$dev"2 /mnt
+    mount "$dev"3 /mnt
+    mkdir /mnt/boot
+    mount "$dev"1 /mnt/boot
 }
 
 update_packs() {

@@ -21,7 +21,7 @@ set_syslinux() {
     local dev="$1"; shift
 
     mkinitcpio -p linux
-    yes | pacman -S grub bash-completion os-prober
+    yes | pacman -S grub bash-completion os-prober intel-ucode
     grub-install --recheck "$dev"
     grub-mkconfig -o /boot/grub/grub.cfg
 
