@@ -11,7 +11,7 @@ echo 'ROOT_PASSWORD=asd' >> constants.properties
 echo 'USER_NAME=gogu' >> constants.properties
 echo 'USER_PASSWORD=asd' >> constants.properties
 echo 'NETWORK=enp0s3' >> constants.properties
-echo 'COUNTRY=ROMANIA' >> constants.properties
+echo 'COUNTRY=Romania' >> constants.properties
 
 rm -r $installDir
 mkdir $installDir
