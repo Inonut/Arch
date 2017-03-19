@@ -56,13 +56,8 @@ update_packs() {
 }
 
 choose_mirror() {
-#    yes | pacman -S reflector
-#    reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
-
-    yes | pacman -S pacman-mirrorlist
-    cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-    sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
-    rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+    yes | pacman -S reflector
+    reflector --verbose --country '$COUNTRY' -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 }
 
 
