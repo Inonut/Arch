@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
 
-installDir=/archInstall
-. $installDir/readProps.sh
-
-
 tools=(
     jdk
     intellij-idea-ultimate-edition
@@ -15,16 +11,14 @@ do
     curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/$tool.tar.gz
     tar -xvf $tool.tar.gz
     cd ~/$tool
-    printf '\n\n\n\n\n\n\n\n\n' | makepkg -s
-    echo -en "$password\n\n" | makepkg -i
+    makepkg -si
     cd ~/
     rm -rf $tool
     rm -rf $tool.tar.gz
 done
 
 
-printf '\n\n\n\n\n\n\n\n\n' | pacman -S maven gradle git notepadqq virtualbox
-printf '$USER_PASSWORD' | sudo !!
+pacman -S maven gradle git notepadqq virtualbox
 
 
 archlinux-java java-8-jdk
