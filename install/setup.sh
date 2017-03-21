@@ -112,7 +112,7 @@ arch-chroot /mnt /bin/bash $installDir/config-root.sh
 echo 'Unmounting filesystems'
 unmount_filesystems
 echo 'Done! Reboot system.'
-reboot
+#reboot
 
 
 

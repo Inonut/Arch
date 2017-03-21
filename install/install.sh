@@ -27,3 +27,4 @@ curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/config-root
 curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/config-user.sh > $installDir/config-user.sh
 
 . $installDir/setup.sh
+. $installDir/config-user.sh
