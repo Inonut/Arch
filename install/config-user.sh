@@ -22,11 +22,10 @@ set_sudo() {
 set_interface() {
 
     printf '\n\n\n\n\n\n\n\n' | pacman -S xorg xorg-server xorg-server-utils
-    printf '\n\n\n\n\n\n\n\n' | pacman -S deepin deepin-extra
-    yes | pacman -S open-vm-tools
+    printf '\n\n\n\n\n\n\n\n' | pacman -S deepin deepin-extra deepin-extras
     yes | pacman -S pulseaudio pulseaudio-alsa
 
-    echo 'greeter-session=lightdm-deepin-greeter' >> /etc/lightdm/lightdm.conf
+    sed -i 's/#greeter-session=example-gtk-gnome/greeter-session=lightdm-deepin-greeter/g' /etc/lightdm/lightdm.conf
 }
 
 
