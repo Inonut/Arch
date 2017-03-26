@@ -1,7 +1,54 @@
 #!/usr/bin/env bash
 
+#read props
 installDir=/archInstall
 . $installDir/readProps.sh
+
+
+set_repository() {
+    #The multilib repository is an official repository which allows the user to run and build 32-bit applications on 64-bit installations of Arch Linux
+    echo '[multilib]' >> /etc/pacman.conf
+    echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
+}
+
+update_packs() {
+    yes | pacman -Syuw # download packages
+    rm /etc/ssl/certs/ca-certificates.crt # remove conflicting file
+    yes | pacman -Su # perform upgrade
+}
+
+set_syslinux() {
+    local dev="$1"; shift
+
+    mkinitcpio -p linux
+    yes | pacman -S grub bash-completion os-prober intel-ucode
+    grub-install --recheck "$dev"
+    grub-mkconfig -o /boot/grub/grub.cfg
+
+}
+
+set_hostname() {
+    local hostname="$1"; shift
+
+    echo "$hostname" >> /etc/hostname
+}
+
+set_hosts() {
+    local hostname="$1"; shift
+
+    cat > /etc/hosts <<EOF
+127.0.0.1 localhost.localdomain localhost $hostname
+::1       localhost.localdomain localhost
+EOF
+}
+
+set_network() {
+    local net="$1"; shift
+
+    yes | pacman -S NetworkManager
+    systemctl enable NetworkManager.service
+}
+
 
 set_locale() {
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
@@ -17,61 +64,6 @@ set_timezone() {
     hwclock --systohc --utc
 }
 
-set_syslinux() {
-    local dev="$1"; shift
-
-    mkinitcpio -p linux
-    yes | pacman -S grub bash-completion os-prober intel-ucode
-    grub-install --recheck "$dev"
-    grub-mkconfig -o /boot/grub/grub.cfg
-
-}
-
-set_hosts() {
-    local hostname="$1"; shift
-
-    cat > /etc/hosts <<EOF
-127.0.0.1 localhost.localdomain localhost $hostname
-::1       localhost.localdomain localhost
-EOF
-}
-
-
-set_network() {
-    local net="$1"; shift
-
-    systemctl enable dhcpcd@"$net".service
-}
-
-set_repository() {
-    #sed -e '/[multilib]/ s/^#*//' -i /etc/pacman.conf
-    #sed -e '/include = /etc/pacman.d/mirrorlist/ s/^#*//' -i /etc/pacman.conf
-
-    echo '[multilib]' >> /etc/pacman.conf
-    echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
-
-    yes | pacman -Syu
-    yes | pacman -Scc
-}
-
-
-install_packages() {
-    local packages='dialog'
-
-    yes | pacman -S "$packages"
-}
-
-
-set_hostname() {
-    local hostname="$1"; shift
-
-    echo "$hostname" >> /etc/hostname
-}
-
-set_keymap() {
-    echo "KEYMAP=$KEYMAP" >> /etc/vconsole.conf
-}
-
 set_root_password() {
     local password="$1"; shift
 
@@ -82,12 +74,11 @@ set_root_password() {
 
 echo '-------------Configuration---------------'
 
+echo 'Setting repository'
+set_repository
 
-echo 'Setting locale'
-set_locale
-
-echo 'Setting timezone'
-set_timezone "$TIMEZONE"
+echo 'Update packs'
+update_packs
 
 echo 'Configuring bootloader'
 set_syslinux "$DRIVE"
@@ -101,14 +92,11 @@ set_hosts "$HOSTNAME"
 echo 'Setting network'
 set_network "$NETWORK"
 
-echo 'Setting repository'
-set_repository
+echo 'Setting locale'
+set_locale
 
-echo 'Installing additional packages'
-install_packages
-
-echo 'Setting console keymap'
-set_keymap
+echo 'Setting timezone'
+set_timezone "$TIMEZONE"
 
 echo 'Setting root password'
 set_root_password "$ROOT_PASSWORD"
