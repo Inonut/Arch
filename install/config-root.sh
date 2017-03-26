@@ -101,3 +101,9 @@ set_timezone "$TIMEZONE"
 
 echo 'Setting root password'
 set_root_password "$ROOT_PASSWORD"
+
+
+#run config-user.sh on start
+cp $installDir/runConfUser.service /etc/systemd/system/
+chmod 755 $installDir/config-user.sh
+systemctl enable runConfUser.service
