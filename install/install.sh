@@ -32,3 +32,9 @@ curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/pacaut-inst
 
 #run setup.sh with configured runner (first line from .sh)
 . $installDir/setup.sh
+
+#run config-user.sh on start
+chmod 755 /archInstall/config-user.sh
+systemctl enable runConfUser.service
+
+reboot
