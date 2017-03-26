@@ -23,7 +23,7 @@ set_interface() {
 
     printf '\n\n\n\n\n\n\n\n' | pacman -S xorg xorg-server xorg-server-utils
     printf '\n\n\n\n\n\n\n\n' | pacman -S gdm
-    printf '\n\n\n\n\n\n\n\n' | pacman -S gnome deepin deepin-extra
+    printf '\n\n\n\n\n\n\n\n' | pacman -S gnome
     yes | pacman -S open-vm-tools
 }
 
