@@ -40,10 +40,6 @@ set_sudo
 echo 'Setting interface'
 set_interface
 
-echo 'Remove config shell'
-systemctl disable runConfUser.service
-rm /etc/systemd/system/runConfUser.service
-
 echo 'Strat interface'
 systemctl enable gdm.service
 systemctl start gdm

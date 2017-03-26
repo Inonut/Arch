@@ -1,8 +1,0 @@
-[Unit]
-Description=My script
-
-[Service]
-ExecStart=/archInstall/config-user.sh
-
-[Install]
-WantedBy=multi-user.target
