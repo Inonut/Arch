@@ -15,6 +15,7 @@ update_packs() {
     yes | pacman -Syuw # download packages
     rm /etc/ssl/certs/ca-certificates.crt # remove conflicting file
     yes | pacman -Su # perform upgrade
+    yes | pacman -S dialog
 }
 
 set_syslinux() {

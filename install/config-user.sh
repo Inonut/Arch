@@ -21,9 +21,12 @@ set_sudo() {
 
 set_interface() {
 
+    printf '\n\n\n\n\n\n\n\n' | pacman -S xorg xorg-server xorg-server-utils
     printf '\n\n\n\n\n\n\n\n' | pacman -S gdm
     printf '\n\n\n\n\n\n\n\n' | pacman -S deepin deepin-extra
+    yes | pacman -S open-vm-tools
 }
+
 
 
 echo '-------------Configuration---------------'
