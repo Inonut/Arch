@@ -29,12 +29,14 @@ curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/config-root
 curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/config-user.sh > $installDir/config-user.sh
 curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/install-tools.sh > $installDir/install-tools.sh
 curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/pacaut-install.sh > $installDir/pacaut-install.sh
+curl -L https://raw.githubusercontent.com/Inonut/Arch/master/install/runConfUser.service > $installDir/runConfUser.service
 
 #run setup.sh with configured runner (first line from .sh)
 . $installDir/setup.sh
 
 #run config-user.sh on start
-chmod 755 /archInstall/config-user.sh
+cp $installDir/runConfUser.service /etc/systemd/system/
+chmod 755 $installDir/config-user.sh
 systemctl enable runConfUser.service
 
 reboot
