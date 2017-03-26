@@ -1,24 +1,10 @@
 #!/usr/bin/env bash
 
+installDir=/archInstall
 
-tools=(
-    jdk
-    intellij-idea-ultimate-edition
-)
-
-for tool in ${tools[@]}
-do
-    curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/$tool.tar.gz
-    tar -xvf $tool.tar.gz
-    cd ~/$tool
-    makepkg -si
-    cd ~/
-    rm -rf $tool
-    rm -rf $tool.tar.gz
-done
-
+. $installDir/pacaut-install.sh
 
 pacman -S maven gradle git notepadqq virtualbox
-
+pacaur -S jdk intellij-idea-ultimate-edition
 
 archlinux-java java-8-jdk
