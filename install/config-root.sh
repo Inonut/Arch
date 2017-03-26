@@ -46,7 +46,7 @@ EOF
 set_network() {
     local net="$1"; shift
 
-    yes | pacman -S NetworkManager
+    yes | pacman -S networkmanager
     systemctl enable NetworkManager.service
 }
 
