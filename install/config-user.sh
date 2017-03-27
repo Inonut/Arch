@@ -22,10 +22,7 @@ set_sudo() {
 set_interface() {
 
     printf '\n\n\n\n\n\n\n\n' | pacman -S xorg xorg-server xorg-server-utils
-    printf '\n\n\n\n\n\n\n\n' | pacman -S deepin deepin-extra deepin-extras
-    yes | pacman -S pulseaudio pulseaudio-alsa
-
-    sed -i 's/#greeter-session=example-gtk-gnome/greeter-session=lightdm-deepin-greeter/g' /etc/lightdm/lightdm.conf
+    printf '\n\n\n\n\n\n\n\n' | pacman -S gdm gnome
 }
 
 
@@ -42,5 +39,5 @@ echo 'Setting interface'
 set_interface
 
 echo 'Strat interface'
-systemctl enable lightdm.service
-systemctl start lightdm.service
+systemctl enable gdm.service
+systemctl start gdm

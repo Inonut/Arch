@@ -12,9 +12,7 @@ set_repository() {
 }
 
 update_packs() {
-    yes | pacman -Syuw # download packages
-    rm /etc/ssl/certs/ca-certificates.crt # remove conflicting file
-    yes | pacman -Su # perform upgrade
+    yes | pacman -Sy
     yes | pacman -S dialog
 }
 
