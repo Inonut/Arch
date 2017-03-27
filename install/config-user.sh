@@ -23,6 +23,9 @@ set_interface() {
 
     printf '\n\n\n\n\n\n\n\n' | pacman -S xorg xorg-server xorg-server-utils
     printf '\n\n\n\n\n\n\n\n' | pacman -S gdm gnome
+    pacman -S deepin deepin-extra deepin-extras
+
+    sed -i 's/#greeter-session=example-gtk-gnome/greeter-session=lightdm-deepin-greeter/g' /etc/lightdm/lightdm.conf
 }
 
 
@@ -39,5 +42,5 @@ echo 'Setting interface'
 set_interface
 
 echo 'Strat interface'
-systemctl enable gdm.service
-systemctl start gdm
+systemctl enable lightdm.service
+systemctl start lightdm.service
