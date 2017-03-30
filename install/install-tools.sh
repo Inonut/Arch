@@ -19,8 +19,11 @@ sudo archlinux-java java-8-jdk
 
 #Setting some util commands
 echo " " >> ~/.bashrc
+#terminal: ll
 echo alias ll='ls -la' >> ~/.bashrc
+#terminal: process
 echo alias process="watch -n 1 'ps -e -o pid,uname,cmd,pmem,pcpu --sort=-pmem,-pcpu | head -15'" >> ~/.bashrc
+#terminal: command | $(log)
 tee -a ~/.bashrc <<EOF
 log() {
 	local logPath=~/logs/system/$(date +%Y)/$(date +%m)/$(date +%d)
