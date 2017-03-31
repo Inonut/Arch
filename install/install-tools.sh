@@ -4,17 +4,15 @@ installDir=/archInstall
 
 . $installDir/pacaut-install.sh
 
-#virtual box
-sudo pacman -S virtualbox virtualbox-host-modules-arch
-sudo modprobe -a vboxdrv
-sudo echo 'vboxdrv' >> /etc/modules-load.d/virtualbox.conf
-sudo gpasswd -a $USER vboxusers
+pacaur -S jdk intellij-idea-ultimate-edition teamviewer maven gradle git notepadqq virtualbox virtualbox-host-modules-arch redshift
 
+#jdk conf
+archlinux-java java-8-jdk
 
-sudo pacman -S maven gradle git notepadqq
-sudo pacaur -S jdk intellij-idea-ultimate-edition teamviewer
-
-sudo archlinux-java java-8-jdk
+#vb conf
+modprobe -a vboxdrv
+echo 'vboxdrv' >> /etc/modules-load.d/virtualbox.conf
+gpasswd -a $USER vboxusers
 
 
 #Setting some util commands
