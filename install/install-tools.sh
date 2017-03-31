@@ -7,7 +7,7 @@ installDir=/archInstall
 pacaur -S jdk intellij-idea-ultimate-edition teamviewer maven gradle git notepadqq virtualbox virtualbox-host-modules-arch redshift
 
 #jdk conf
-archlinux-java java-8-jdk
+archlinux-java set java-8-jdk
 
 #vb conf
 modprobe -a vboxdrv
