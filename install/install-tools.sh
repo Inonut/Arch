@@ -10,13 +10,13 @@ pacaur -S jdk intellij-idea-ultimate-edition teamviewer maven gradle git notepad
 archlinux-java set java-8-jdk
 
 #vb conf
-modprobe -a vboxdrv
-echo 'vboxdrv' >> /etc/modules-load.d/virtualbox.conf
-gpasswd -a $USER vboxusers
+sudo modprobe -a vboxdrv
+sudo echo 'vboxdrv' >> /etc/modules-load.d/virtualbox.conf
+sudo gpasswd -a $USER vboxusers
 
 
 #redshift conf
-tee -a /etc/geoclue/geoclue.conf <<EOF
+sudo tee -a /etc/geoclue/geoclue.conf <<EOF
 
 [redshift]
 allowed=true
@@ -26,7 +26,7 @@ EOF
 
 
 #tw conf
-teamviewer --deamon start
+sudo teamviewer --deamon start
 
 
 #Setting some util commands
@@ -38,13 +38,13 @@ echo alias process="watch -n 1 'ps -e -o pid,uname,cmd,pmem,pcpu --sort=-pmem,-p
 #terminal: command | $(log)
 tee -a ~/.bashrc <<EOF
 log() {
-	local logPath=~/logs/system/$(date +%Y)/$(date +%m)/$(date +%d)
-	local fileLog=$logPath/$(date +%H)_$(date +%M)_$(date +%S).log
+	local logPath=~/logs/system/\$(date +%Y)/\$(date +%m)/\$(date +%d)
+	local fileLog=$logPath/\$(date +%H)_\$(date +%M)_\$(date +%S).log
 
 	mkdir -p $logPath
 
 	echo "" >> $fileLog
-	echo -------------$(history 1)--------------- >> $fileLog
+	echo -------------\$(history 1)--------------- >> $fileLog
 	echo "" >> $fileLog
 
 	echo tee -a $fileLog 2>&1
