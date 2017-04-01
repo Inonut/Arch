@@ -25,6 +25,10 @@ users=
 EOF
 
 
+#tw conf
+teamviewer --deamon start
+
+
 #Setting some util commands
 echo " " >> ~/.bashrc
 #terminal: ll
