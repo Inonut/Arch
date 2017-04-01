@@ -4,7 +4,7 @@ installDir=/archInstall
 
 . $installDir/pacaut-install.sh
 
-pacaur -S jdk intellij-idea-ultimate-edition teamviewer maven gradle git notepadqq virtualbox virtualbox-host-modules-arch redshift gnome-tweak-tool
+pacaur -S jdk intellij-idea-ultimate-edition teamviewer maven gradle git notepadqq virtualbox virtualbox-host-modules-arch redshift gnome-tweak-tool megasync
 
 #jdk conf
 archlinux-java set java-8-jdk
