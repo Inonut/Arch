@@ -26,7 +26,8 @@ EOF
 
 
 #tw conf
-teamviewer --deamon start
+systemctl enable teamviewerd.service
+systemctl start teamviewerd.service
 
 
 #Setting some util commands
