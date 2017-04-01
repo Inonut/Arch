@@ -26,7 +26,7 @@ EOF
 
 
 #tw conf
-sudo teamviewer --deamon start
+teamviewer --deamon start
 
 
 #Setting some util commands
