@@ -21,7 +21,6 @@ set_sudo() {
 
 set_interface() {
 
-    pacman -S xorg
     pacman -S gnome
     pacman -S deepin deepin-extra deepin-extras
 

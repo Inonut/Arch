@@ -15,6 +15,16 @@ echo 'vboxdrv' >> /etc/modules-load.d/virtualbox.conf
 gpasswd -a $USER vboxusers
 
 
+#redshift conf
+tee -a /etc/geoclue/geoclue.conf <<EOF
+
+[redshift]
+allowed=true
+system=false
+users=
+EOF
+
+
 #Setting some util commands
 echo " " >> ~/.bashrc
 #terminal: ll
