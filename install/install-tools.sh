@@ -4,7 +4,7 @@ installDir=/archInstall
 
 . $installDir/pacaut-install.sh
 
-pacaur -S jdk intellij-idea-ultimate-edition teamviewer maven gradle git notepadqq virtualbox virtualbox-host-modules-arch redshift gnome-tweak-tool megasync conky chrome-gnome-shell-git
+pacaur -S jdk intellij-idea-ultimate-edition teamviewer maven gradle git notepadqq virtualbox virtualbox-host-modules-arch redshift gnome-tweak-tool megasync conky chrome-gnome-shell-git gdevilspie
 
 #jdk conf
 archlinux-java set java-8-jdk
@@ -47,6 +47,10 @@ EOF
 
 #chrome-gnome-shell-git conf
 #https://extensions.gnome.org/
+
+
+#gdevilspie conf
+#best :D
 
 #Setting some util commands
 tee -a ~/.bashrc <<EOF
