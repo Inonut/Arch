@@ -4,7 +4,7 @@ installDir=/archInstall
 
 . $installDir/pacaut-install.sh
 
-pacaur -S jdk intellij-idea-ultimate-edition teamviewer maven gradle git notepadqq virtualbox virtualbox-host-modules-arch redshift gnome-tweak-tool megasync
+pacaur -S jdk intellij-idea-ultimate-edition teamviewer maven gradle git notepadqq virtualbox virtualbox-host-modules-arch redshift gnome-tweak-tool megasync conky
 
 #jdk conf
 archlinux-java set java-8-jdk
@@ -28,6 +28,21 @@ EOF
 #tw conf
 systemctl enable teamviewerd.service
 systemctl start teamviewerd.service
+
+
+#conky conf
+tee -a ~/.config/autostart/conky.desktop <<EOF
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.9.4
+Type=Application
+Name=conky
+Comment=
+Exec=conky -d
+StartupNotify=false
+Terminal=false
+Hidden=false
+EOF
 
 
 #Setting some util commands
