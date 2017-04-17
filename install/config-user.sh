@@ -21,7 +21,7 @@ set_sudo() {
 
 set_interface() {
 
-    pacman -S gnome deepin-extra deepin-extras #deepin
+    pacman -S xorg xorg-server gnome deepin-extra deepin-extras #deepin
 
     #sed -i 's/#greeter-session=example-gtk-gnome/greeter-session=lightdm-deepin-greeter/g' /etc/lightdm/lightdm.conf
 }
