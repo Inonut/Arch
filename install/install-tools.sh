@@ -52,6 +52,9 @@ EOF
 #gdevilspie conf
 #best :D
 
+#deepin-music
+pacman -S gst-libav gst-plugins-good
+
 #Setting some util commands
 tee -a ~/.bashrc <<EOF
 
