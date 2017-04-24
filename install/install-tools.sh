@@ -2,60 +2,9 @@
 
 installDir=/archInstall
 
-. $installDir/pacaut-install.sh
 
-pacaur -S jdk intellij-idea-ultimate-edition teamviewer maven gradle git notepadqq virtualbox virtualbox-host-modules-arch redshift gnome-tweak-tool megasync conky chrome-gnome-shell-git gdevilspie
-
-#jdk conf
-archlinux-java set java-8-jdk
-
-#vb conf
-sudo modprobe -a vboxdrv
-sudo echo 'vboxdrv' >> /etc/modules-load.d/virtualbox.conf
-sudo gpasswd -a $USER vboxusers
-
-
-#redshift conf
-sudo tee -a /etc/geoclue/geoclue.conf <<EOF
-
-[redshift]
-allowed=true
-system=false
-users=
-EOF
-
-
-#tw conf
-systemctl enable teamviewerd.service
-systemctl start teamviewerd.service
-
-
-#conky conf
-tee -a ~/.config/autostart/conky.desktop <<EOF
-[Desktop Entry]
-Encoding=UTF-8
-Version=0.9.4
-Type=Application
-Name=conky
-Comment=
-Exec=conky -d
-StartupNotify=false
-Terminal=false
-Hidden=false
-EOF
-
-
-#chrome-gnome-shell-git conf
-#https://extensions.gnome.org/
-
-
-#gdevilspie conf
-#best :D
-
-#deepin-music
-pacman -S gst-libav gst-plugins-good
-
-#Setting some util commands
+conf_bashrc(){
+    #Setting some util commands
 tee -a ~/.bashrc <<EOF
 
 alias ll='ls -la'
@@ -74,3 +23,82 @@ log() {
 	echo tee -a $fileLog 2>&1
 }
 EOF
+}
+
+
+install(){
+    for var in $@
+    do
+        if [ -n "$(type -t $var)" ] && [ "$(type -t $var)" = function ];
+        then
+            echo Config $var
+            $var
+        else
+            echo Install $var
+            pacaur -S $var
+        fi
+    done
+}
+
+conf_jdk(){
+    sudo archlinux-java set java-8-jdk
+}
+
+conf_teamviewer(){
+    systemctl enable teamviewerd.service
+    systemctl start teamviewerd.service
+}
+
+conf_virtualbox(){
+    sudo modprobe -a vboxdrv
+    sudo echo 'vboxdrv' >> /etc/modules-load.d/virtualbox.conf
+    sudo gpasswd -a $USER vboxusers
+}
+
+conf_redshift(){
+sudo tee -a /etc/geoclue/geoclue.conf <<EOF
+
+[redshift]
+allowed=true
+system=false
+users=
+EOF
+}
+
+
+conf_conky(){
+tee -a ~/.config/autostart/conky.desktop <<EOF
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.9.4
+Type=Application
+Name=conky
+Comment=
+Exec=conky -d
+StartupNotify=false
+Terminal=false
+Hidden=false
+EOF
+}
+
+
+. $installDir/pacaut-install.sh
+
+install jdk conf_jdk
+install intellij-idea-ultimate-edition
+install maven
+install gradle
+install git
+install notepadqq
+install virtualbox virtualbox-host-modules-arch conf_virtualbox
+install redshift conf_redshift
+install megasync
+install conky
+#install gnome-tweak-tool
+#install chrome-gnome-shell-git #https://extensions.gnome.org/
+install gdevilspie
+install downgrade
+install gst-libav gst-plugins-good #deepin-music fixed
+install conf_bashrc
+
+
