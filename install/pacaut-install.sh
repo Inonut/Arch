@@ -1,52 +1,57 @@
-#!/bin/sh
-
-# If you are new to arch, I encourage you to at least read and understand what
-# this script does befor blindley running it.
-# That's why I didn't make a one-liner out of it so you have an easier time
-# reading and understanding it :)
+#!/usr/bin/bash -l
 #
-# This scripts purpose is purly to save you a few seconds on your new installation.
+# The MIT License (MIT)
 #
-# Enjoy your time on an awesome system. Arch FTW!
-
-# Run the following from a terminal to install pacaur:
-# $ curl -s https://gist.githubusercontent.com/Tadly/0e65d30f279a34c33e9b/raw/pacaur_install.sh | bash
+# Copyright (c) 2015-2017 Stefan Tatschner
 #
-# In case you can't copy&paste you may use this shortend version. Keep in mind that goo.gl
-# does tracking and analytics. You have been warned :)
-# $ curl -Ls https://goo.gl/cF2iJy | bash
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
 #
-# Aforementioned statistics are public and can be accesed here (If you're interested):
-# https://goo.gl/#analytics/goo.gl/QYfPju/all_time
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 
+buildroot="$(mktemp -d)"
 
-# Make sure our shiny new arch is up-to-date
-echo "Checking for system updates..."
-sudo pacman -Syu
+# Ask for user passwort once, see sudo(8).
+sudo -v
 
-# Create a tmp-working-dir and navigate into it
-mkdir -p /tmp/pacaur_install
-cd /tmp/pacaur_install
+# Make sure we can even build packages on arch linux.
+sudo pacman -S --needed --noconfirm base-devel git
 
-# If you didn't install the "base-devel" group,
-# we'll need those.
-sudo pacman -S binutils make gcc fakeroot --noconfirm --needed
+mkdir -p "$buildroot"
+cd "$buildroot" || exit 1
 
-# Install pacaur dependencies from arch repos
-sudo pacman -S expac yajl git --noconfirm --needed
-
-# Install "cower" from AUR
-if [ ! -n "$(pacman -Qs cower)" ]; then
-    curl -o PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=cower
-    makepkg PKGBUILD --skippgpcheck --install --needed
+# Arch Linux ARM provides a cower package for the RPI!
+# Let's either install 'cower' via pacman, or build it.
+if [ "$(uname -n)" = 'alarmpi' ]; then
+	sudo pacman -S cower
+else
+	# Fetch Dave Reisner's key to be able to verify cower.
+	gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 487EACC08557AD082088DABA1EB2638FF56C0C53
+	git clone --depth=1 "https://aur.archlinux.org/cower.git"
+	cd "${buildroot}/cower" || exit 1
+	makepkg --syncdeps --install --noconfirm
 fi
 
-# Install "pacaur" from AUR
-if [ ! -n "$(pacman -Qs pacaur)" ]; then
-    curl -o PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=pacaur
-    makepkg PKGBUILD --install --needed
-fi
+cd "$buildroot" || exit 1
+git clone --depth=1  "https://aur.archlinux.org/pacaur.git"
 
-# Clean up...
-cd ~
-rm -r /tmp/pacaur_install
+cd "${buildroot}/pacaur" || exit 1
+makepkg --syncdeps --install --noconfirm
+
+cd "$HOME" || exit 1
+rm -rf "$buildroot"
+
+export EDITOR="/usr/bin/nano"
